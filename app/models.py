@@ -3,6 +3,9 @@ from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.utils.translation import gettext_lazy as _
 from .managers import UserManager
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from .services import watermark_avatar_service
 
 
 def image_directory_path(instance, filename):
@@ -35,3 +38,14 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def get_first_name(self):
         return self.first_name
+
+
+
+@receiver(post_save, sender=User)
+def watermark_avatar(sender, instance, created, **kwargs):
+    if created:
+        watermark_avatar_service(instance.avatar.path)
+
+# @receiver(post_save, sender=User)
+# def save_user(sender, instance, **kwargs):
+#     pass
