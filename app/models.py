@@ -40,12 +40,22 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.first_name
 
 
+class Likes(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, related_name='user')
+    user_like = models.ManyToManyField(User, related_name='user_like', blank=True)
+
 
 @receiver(post_save, sender=User)
-def watermark_avatar(sender, instance, created, **kwargs):
+def after_user_was_created(sender, instance, created, **kwargs):
     if created:
         watermark_avatar_service(instance.avatar.path)
+        Likes.objects.create(user=instance)
 
 # @receiver(post_save, sender=User)
 # def save_user(sender, instance, **kwargs):
 #     pass
+
+
+
+
+

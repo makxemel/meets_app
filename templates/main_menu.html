@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+<ul class="nav flex-column">
+    {% if user.is_authenticated %}
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'client_view' %}">Clients</a>
+    </li>
+    {% else %}
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'register' %}">Register</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'login' %}">Login</a>
+    </li>
+    {% endif %}
+</ul>
+{% endblock content %}
+

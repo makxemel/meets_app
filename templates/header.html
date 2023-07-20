@@ -1,0 +1,17 @@
+<ul class="nav justify-content-center">
+    {% if request.user.is_authenticated %}
+    <li class="nav-item">
+        <a class="nav-link" href="/">{{user.first_name}} | Menu</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+    </li>
+    {% else %}
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'register' %}">register</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'login' %}">login</a>
+    </li>
+    {% endif %}
+</ul>

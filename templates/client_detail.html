@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+{% include 'header.html' %}
+<div class="card" style="width: 100%; height: 25vw; object-fit: cover;">
+    {% if card.avatar.url %}
+    <img class="card-img-top" src="{{ card.avatar.url }}" alt="Card image cap">
+    {% else %}
+    <img class="card-img-top" src="" alt="Card image cap">
+    {% endif %}
+    <div class="card-body">
+        <h5 class="card-title">{{ card.get_full_name }}</h5>
+        <p class="card-text">{{ card.gender }}</p>
+        <a class="carousel-control-prev" href="{% url 'client_view' %}" role="button"
+           data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only"></span>
+        </a>
+        <a class="carousel-control-next" href="{% url 'client_view' %}" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only"></span>
+        </a>
+        <form action="{% url 'like' card.pk %}" method="post">
+            {% csrf_token %}
+            <input class="btn btn-primary" type="submit" value="LIKE">
+        </form>
+    </div>
+</div>
+{% endblock content %}
